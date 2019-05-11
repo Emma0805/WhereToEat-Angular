@@ -1,0 +1,23 @@
+<header>Sign Up</header>
+
+<form [formGroup]="userFormGroup">
+  <div fxLayout="column" fxLayoutAlign="center">
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error *ngIf="email.invalid">{{getErrorMessage("email")}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Password" formControlName="password">
+      <mat-error *ngIf="password.invalid">{{getErrorMessage("password")}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Confirm Password" formControlName="passwordConfirm">
+      <mat-error *ngIf="passwordConfirm.invalid">{{getErrorMessage("passwordConfirm")}}</mat-error>
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button (click)="register()" cdkFocusInitial [disabled]="userFormGroup.invalid"
+      color="primary">Register</button>
+  </mat-dialog-actions>
+</form>
