@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CommonApiService } from '../../services/apis/common-api.service';
+import { ConstantsService } from '../../utils/constants.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -9,7 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class SignUpComponent implements OnInit {
   public userFormGroup: FormGroup;
 
-  constructor() { }
+  constructor(private api: CommonApiService) { }
 
   ngOnInit() {
     this.userFormGroup = new FormGroup({
@@ -20,7 +22,11 @@ export class SignUpComponent implements OnInit {
   }
 
   register() {
-    alert('aaaaa');
+    debugger;
+    this.api.registerNewUser(ConstantsService.DATABASE + "/user/register", this.userFormGroup.value).subscribe(res => {
+      res;
+      debugger;
+    });
   }
 
   getErrorMessage(element: string) {
