@@ -1,0 +1,14 @@
+.errorMessage{
+    margin: 5px auto;
+}
+
+mat-form-field{
+    padding:10px 0;
+}
+
+header{
+    border-bottom: 1px solid #D3D3D3;
+    padding-bottom: 24px;
+}
+
+form{padding:24px 0;}

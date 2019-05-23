@@ -1,0 +1,19 @@
+<header>Login</header>
+
+<form [formGroup]="userFormGroup">
+  <div fxLayout="column" fxLayoutAlign="center">
+    <mat-error class="errorMessage">{{errorMessage}}</mat-error>
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error *ngIf="email.invalid">{{getErrorMessage("email")}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" matInput placeholder="Password" formControlName="password">
+      <mat-error *ngIf="password.invalid">{{getErrorMessage("password")}}</mat-error>
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button (click)="login()" [disabled]="userFormGroup.invalid" color="primary">Login</button>
+  </mat-dialog-actions>
+</form>

@@ -9,13 +9,16 @@ import { SignUpComponent } from './V1/components/sign-up/sign-up.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './V1/components/login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpComponent
+    SignUpComponent,
+    LoginComponent
   ],
   entryComponents: [
-    SignUpComponent
+    SignUpComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
