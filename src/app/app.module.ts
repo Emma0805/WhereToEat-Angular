@@ -10,11 +10,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './V1/components/login/login.component';
+import { DashboardComponent } from './V1/components/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
     SignUpComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent
   ],
   entryComponents: [
     SignUpComponent,

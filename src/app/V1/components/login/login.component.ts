@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonApiService } from '../../services/apis/common-api.service';
 import { ConstantsService } from '../../utils/constants.service';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ export class LoginComponent implements OnInit {
   public userFormGroup: FormGroup;
   public errorMessage = '';
 
-  constructor(private api: CommonApiService) { }
+  constructor(private api: CommonApiService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.userFormGroup = new FormGroup({
@@ -28,8 +30,8 @@ export class LoginComponent implements OnInit {
       if (res === null) {
         this.errorMessage = 'Username or password is invalid.';
       } else {
-        //Go to index page
-        debugger;
+        this.router.navigateByUrl('dashboard');
+        this.dialog.closeAll();
       }
     });
   }

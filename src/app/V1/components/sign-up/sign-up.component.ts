@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CommonApiService } from '../../services/apis/common-api.service';
 import { ConstantsService } from '../../utils/constants.service';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,7 +13,7 @@ import { ConstantsService } from '../../utils/constants.service';
 export class SignUpComponent implements OnInit {
   public userFormGroup: FormGroup;
 
-  constructor(private api: CommonApiService) { }
+  constructor(private api: CommonApiService, private router: Router, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.userFormGroup = new FormGroup({
@@ -30,8 +32,8 @@ export class SignUpComponent implements OnInit {
   register() {
     this.api.registerNewUser(ConstantsService.DATABASE + "/user/register", this.userFormGroup.value).subscribe(res => {
       res;
-      //Go to index page
-      debugger;
+      this.router.navigateByUrl('dashboard');
+      this.dialog.closeAll();
     });
   }
 
