@@ -2,3 +2,17 @@
     width: 80%;
     margin: 5px 10px;
 }
+
+span{
+    margin: 10px;
+    line-height: 30px;
+}
+
+mat-card{
+    margin: 20px;
+}
+
+.selectButton{
+    text-align: right;
+    margin: 20px;
+}

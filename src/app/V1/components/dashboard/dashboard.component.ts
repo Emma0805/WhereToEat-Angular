@@ -26,12 +26,15 @@ export class DashboardComponent implements OnInit {
         ];
         //For debugger
         this.restaurantForm = new FormGroup({
-            name: new FormControl(''),
+            name: new FormControl('', Validators.required),
             location: new FormControl('')
         });
     }
 
     add() {
+        if (!this.restaurantForm.value.name) {
+            return;
+        }
         if (this.restaurantList.find(restaurant => {
             return this.restaurantForm.value.name === restaurant.name;
         })) {

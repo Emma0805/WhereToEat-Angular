@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './V1/components/login/login.component';
 import { DashboardComponent } from './V1/components/dashboard/dashboard.component';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
     ReactiveFormsModule,
     FlexLayoutModule,
     HttpClientModule,
-    GridModule
+    GridModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
