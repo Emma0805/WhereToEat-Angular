@@ -1,13 +1,19 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
+<div style="padding: 10px; background-color: #212529; color: #999">
+  <i class="fas fa-utensils"></i>
+  <span style="line-height: 37px;">
     Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="../assets/WTE_logo.jpg">
-  <div><button mat-raised-button color="primary" (click)="openSignUpDialog()">Sign up for an account</button>
-    OR <button mat-raised-button>Sign in</button>
+  </span>
+  <div class="right" *ngIf="!authUser"><button mat-raised-button color="primary" (click)="openSignUpDialog()">Sign up
+      for an
+      account</button>
+    OR <button mat-raised-button (click)="openLoginDialog()">Sign in</button></div>
+  <div class="right" *ngIf="authUser"><button mat-button [matMenuTriggerFor]="menu">Hi,
+      {{authUser.firstName || authUser.email}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
   </div>
-  <div style="padding: 20px; font-size: 12px;"><a href="#">I don't want create a new account, get started now!</a></div>
 </div>
 
 <footer>Developed By <a href="http://chenyuegu.com/" target="_blank">Emma Gu</a></footer>

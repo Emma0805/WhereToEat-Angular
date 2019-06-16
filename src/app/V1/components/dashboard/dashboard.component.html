@@ -1,0 +1,26 @@
+<div>
+  <mat-card>
+    <form [formGroup]="restaurantForm">
+      <div><span>Add custom restaurant here:</span></div>
+      <mat-form-field class="restaurantInput">
+        <input matInput placeholder="Restaurant Name" formControlName="name">
+      </mat-form-field>
+      <mat-form-field class="restaurantInput">
+        <input matInput placeholder="Restaurant Location" formControlName="location">
+      </mat-form-field>
+      <mat-dialog-actions>
+        <button mat-raised-button [disabled]="restaurantForm.invalid" (click)="add()" color="primary">Add to
+          list</button>
+      </mat-dialog-actions>
+    </form>
+  </mat-card>
+  <kendo-grid [data]="restaurantList" [kendoGridSelectBy]="'name'" [selectedKeys]="mySelection" [height]="200">
+    <kendo-grid-checkbox-column showSelectAll="true" width="10"></kendo-grid-checkbox-column>
+    <kendo-grid-column field="name" title="Name" width="40"></kendo-grid-column>
+    <kendo-grid-column field="location" title="Location" width="40"></kendo-grid-column>
+  </kendo-grid>
+
+  <div class="selectButton"><button mat-raised-button [disabled]='mySelection.length === 0' (click)="random()"
+      color="primary">Select a restaurant for me!</button></div>
+  <mat-card *ngIf="result">{{result}}</mat-card>
+</div>
