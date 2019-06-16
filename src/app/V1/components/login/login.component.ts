@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       if (res === null) {
         this.errorMessage = 'Username or password is invalid.';
       } else {
-        this.router.navigateByUrl('dashboard');
+        sessionStorage.setItem("currentUser", JSON.stringify(res));
         this.dialog.closeAll();
       }
     });

@@ -4,9 +4,16 @@
   <span style="line-height: 37px;">
     Welcome to {{ title }}!
   </span>
-  <div class="right"><button mat-raised-button color="primary" (click)="openSignUpDialog()">Sign up for an
+  <div class="right" *ngIf="!authUser"><button mat-raised-button color="primary" (click)="openSignUpDialog()">Sign up
+      for an
       account</button>
     OR <button mat-raised-button (click)="openLoginDialog()">Sign in</button></div>
+  <div class="right" *ngIf="authUser"><button mat-button [matMenuTriggerFor]="menu">Hi,
+      {{authUser.firstName || authUser.email}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+  </div>
 </div>
 
 <footer>Developed By <a href="http://chenyuegu.com/" target="_blank">Emma Gu</a></footer>

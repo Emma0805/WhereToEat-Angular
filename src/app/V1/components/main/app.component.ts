@@ -10,8 +10,11 @@ import { LoginComponent } from '../login/login.component';
 })
 export class AppComponent {
   title = 'Where To Eat';
+  public authUser = null;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {
+    this.authUser = JSON.parse(sessionStorage.getItem('currentUser'));
+  }
 
   public openSignUpDialog(): void {
     const dialogRef = this.dialog.open(SignUpComponent, {
@@ -30,6 +33,12 @@ export class AppComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.authUser = JSON.parse(sessionStorage.getItem('currentUser'));
     });
+  }
+
+  public logout() {
+    sessionStorage.clear();
+    this.authUser = null;
   }
 }

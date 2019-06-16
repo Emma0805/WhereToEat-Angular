@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
             { name: 'rfedcvfghyu654', location: 'e3456yhgbfd' },
         ];
         //For debugger
+
         this.restaurantForm = new FormGroup({
             name: new FormControl('', Validators.required),
             location: new FormControl('')
