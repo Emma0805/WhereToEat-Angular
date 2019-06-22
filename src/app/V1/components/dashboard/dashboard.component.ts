@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RowArgs } from '@progress/kendo-angular-grid';
-import { Restaurant } from '../../utils/restaurant.interface';
+import { UserService } from '../../utils/user.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -14,22 +13,27 @@ export class DashboardComponent implements OnInit {
     public mySelection: string[] = [];
     public result = '';
 
-    constructor() { }
+    constructor(private userSerive: UserService) { }
 
     ngOnInit() {
-
-        //For debugger
-        this.restaurantList = [
-            { name: 'bjgfvhbjnkml', location: 'dfgyuvcfytuio' },
-            { name: 'ghfdterhrg', location: '456786fdgbh54r' },
-            { name: 'rfedcvfghyu654', location: 'e3456yhgbfd' },
-        ];
-        //For debugger
-
         this.restaurantForm = new FormGroup({
             name: new FormControl('', Validators.required),
             location: new FormControl('')
         });
+        this.getRestaurantList();
+    }
+
+    getRestaurantList() {
+        const authUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        if (authUser) {
+            this.restaurantList = authUser.places || [];
+        } else {
+            this.userSerive.restaurantList$.subscribe(list => {
+                //TODO: if the user input some place then login, it should combine two list.
+                this.restaurantList = list;
+                this.result = '';
+            });
+        }
     }
 
     add() {

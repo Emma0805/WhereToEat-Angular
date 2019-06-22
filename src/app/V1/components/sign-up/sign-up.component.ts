@@ -31,8 +31,7 @@ export class SignUpComponent implements OnInit {
 
   register() {
     this.api.registerNewUser(ConstantsService.DATABASE + "/user/register", this.userFormGroup.value).subscribe(res => {
-      res;
-      this.router.navigateByUrl('dashboard');
+      sessionStorage.setItem("currentUser", JSON.stringify(res));
       this.dialog.closeAll();
     });
   }
