@@ -15,8 +15,7 @@
     </form>
   </mat-card>
   <kendo-grid [data]="restaurantList" [kendoGridSelectBy]="'name'" [selectedKeys]="mySelection" [height]="200"
-    [selectable]="{enabled: true, checkboxOnly: true }" (cellClick)="cellClickHandler($event)"
-    (cellClose)="cellCloseHandler($event)">
+    [selectable]="{enabled: true, checkboxOnly: true }">
     <kendo-grid-checkbox-column showSelectAll="true" width="10"></kendo-grid-checkbox-column>
     <kendo-grid-column field="name" title="Name" width="40"></kendo-grid-column>
     <kendo-grid-column field="location" title="Location" width="40"></kendo-grid-column>
