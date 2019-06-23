@@ -14,13 +14,19 @@
       </mat-dialog-actions>
     </form>
   </mat-card>
-  <kendo-grid [data]="restaurantList" [kendoGridSelectBy]="'name'" [selectedKeys]="mySelection" [height]="200">
+  <kendo-grid [data]="restaurantList" [kendoGridSelectBy]="'name'" [selectedKeys]="mySelection" [height]="200"
+    [selectable]="{enabled: true, checkboxOnly: true }" (cellClick)="cellClickHandler($event)"
+    (cellClose)="cellCloseHandler($event)">
     <kendo-grid-checkbox-column showSelectAll="true" width="10"></kendo-grid-checkbox-column>
     <kendo-grid-column field="name" title="Name" width="40"></kendo-grid-column>
     <kendo-grid-column field="location" title="Location" width="40"></kendo-grid-column>
+    <kendo-grid-column width="20"></kendo-grid-column>
   </kendo-grid>
 
-  <div class="selectButton"><button mat-raised-button [disabled]='mySelection.length === 0' (click)="random()"
-      color="primary">Select a restaurant for me!</button></div>
+  <div class="selectButton"><button style="margin-right:20px;" mat-raised-button [disabled]='!authUser'
+      (click)="saveList()" color="primary">Save All</button>
+    <!-- Tooltip here -->
+    <button mat-raised-button [disabled]='mySelection.length === 0' (click)="random()" color="primary">Select a
+      restaurant for me!</button></div>
   <mat-card *ngIf="result">{{result}}</mat-card>
 </div>

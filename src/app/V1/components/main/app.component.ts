@@ -15,6 +15,12 @@ export class AppComponent {
 
   constructor(public dialog: MatDialog, private userSerive: UserService) {
     this.authUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (this.authUser) {
+      this.userSerive.updateUser(this.authUser);
+    }
+    this.userSerive.user$.subscribe(user => {
+      this.authUser = user;
+    })
   }
 
   public openSignUpDialog(): void {
@@ -24,7 +30,6 @@ export class AppComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.authUser = JSON.parse(sessionStorage.getItem('currentUser'));
     });
   }
 
@@ -35,14 +40,10 @@ export class AppComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.authUser = JSON.parse(sessionStorage.getItem('currentUser'));
-      this.userSerive.updateList(this.authUser.places);
     });
   }
 
   public logout() {
-    sessionStorage.clear();
-    this.authUser = null;
-    this.userSerive.updateList([]);
+    this.userSerive.updateUser(null);
   }
 }

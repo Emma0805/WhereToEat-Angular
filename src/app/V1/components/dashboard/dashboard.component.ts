@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../utils/user.service';
+import { CommonApiService } from '../../services/apis/common-api.service';
+import { ConstantsService } from '../../utils/constants.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -12,8 +14,9 @@ export class DashboardComponent implements OnInit {
     public restaurantList = [];
     public mySelection: string[] = [];
     public result = '';
+    public authUser: any;
 
-    constructor(private userSerive: UserService) { }
+    constructor(private userSerive: UserService, private api: CommonApiService) { }
 
     ngOnInit() {
         this.restaurantForm = new FormGroup({
@@ -24,16 +27,23 @@ export class DashboardComponent implements OnInit {
     }
 
     getRestaurantList() {
-        const authUser = JSON.parse(sessionStorage.getItem('currentUser'));
-        if (authUser) {
-            this.restaurantList = authUser.places || [];
-        } else {
-            this.userSerive.restaurantList$.subscribe(list => {
-                //TODO: if the user input some place then login, it should combine two list.
-                this.restaurantList = list;
-                this.result = '';
-            });
-        }
+        this.userSerive.user$.subscribe(user => {
+            if (user) {
+                this.combineTwoList(user.places);
+            }
+            this.authUser = user;
+        });
+    }
+
+    combineTwoList(newList: any[]) {
+        newList.forEach(item => {
+            if (!this.restaurantList.find(restaurant => {
+                return item.name === restaurant.name && item.location === restaurant.location;
+            })) {
+                this.restaurantList.push(item);
+            }
+        });
+
     }
 
     add() {
@@ -60,5 +70,14 @@ export class DashboardComponent implements OnInit {
             return restaurant.name === this.mySelection[randomNumber]
         });
         this.result = 'Restaurant Name: ' + item.name + ', Restaurant Location: ' + item.location;
+    }
+
+    saveList() {
+        this.result = '';
+        this.api.registerNewUser(ConstantsService.DATABASE + "/user/add/place/" + this.authUser.id, this.restaurantList).subscribe(res => {
+            this.result = 'List saved';
+            this.authUser.places = this.restaurantList;
+            this.userSerive.updateUser(this.authUser);
+        });
     }
 }

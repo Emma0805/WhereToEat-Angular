@@ -5,12 +5,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private restaurantList = new BehaviorSubject([]);
-  public restaurantList$ = this.restaurantList.asObservable();
+  private user = new BehaviorSubject(null);
+  public user$ = this.user.asObservable();
 
   constructor() { }
 
-  updateList(newList: any[]) {
-    this.restaurantList.next(newList);
+  updateUser(user: any) {
+    sessionStorage.setItem("currentUser", JSON.stringify(user));
+    this.user.next(user);
   }
 }
