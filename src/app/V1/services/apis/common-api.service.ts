@@ -15,4 +15,8 @@ export class CommonApiService {
   login(url: string, body: any) {
     return this.http.post(url, body);
   }
+
+  saveList(url: string, body: any) {
+    return this.http.post(url, body);
+  }
 }

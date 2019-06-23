@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RowArgs } from '@progress/kendo-angular-grid';
-import { Restaurant } from '../../utils/restaurant.interface';
+import { UserService } from '../../utils/user.service';
+import { CommonApiService } from '../../services/apis/common-api.service';
+import { ConstantsService } from '../../utils/constants.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -13,23 +14,36 @@ export class DashboardComponent implements OnInit {
     public restaurantList = [];
     public mySelection: string[] = [];
     public result = '';
+    public authUser: any;
 
-    constructor() { }
+    constructor(private userSerive: UserService, private api: CommonApiService) { }
 
     ngOnInit() {
-
-        //For debugger
-        this.restaurantList = [
-            { name: 'bjgfvhbjnkml', location: 'dfgyuvcfytuio' },
-            { name: 'ghfdterhrg', location: '456786fdgbh54r' },
-            { name: 'rfedcvfghyu654', location: 'e3456yhgbfd' },
-        ];
-        //For debugger
-
         this.restaurantForm = new FormGroup({
             name: new FormControl('', Validators.required),
             location: new FormControl('')
         });
+        this.getRestaurantList();
+    }
+
+    getRestaurantList() {
+        this.userSerive.user$.subscribe(user => {
+            if (user) {
+                this.combineTwoList(user.places);
+            }
+            this.authUser = user;
+        });
+    }
+
+    combineTwoList(newList: any[]) {
+        newList.forEach(item => {
+            if (!this.restaurantList.find(restaurant => {
+                return item.name === restaurant.name && item.location === restaurant.location;
+            })) {
+                this.restaurantList.push(item);
+            }
+        });
+
     }
 
     add() {
@@ -56,5 +70,14 @@ export class DashboardComponent implements OnInit {
             return restaurant.name === this.mySelection[randomNumber]
         });
         this.result = 'Restaurant Name: ' + item.name + ', Restaurant Location: ' + item.location;
+    }
+
+    saveList() {
+        this.result = '';
+        this.api.registerNewUser(ConstantsService.DATABASE + "/user/add/place/" + this.authUser.id, this.restaurantList).subscribe(res => {
+            this.result = 'List saved';
+            this.authUser.places = this.restaurantList;
+            this.userSerive.updateUser(this.authUser);
+        });
     }
 }
