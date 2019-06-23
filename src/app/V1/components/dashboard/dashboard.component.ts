@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
     public authUser: any;
     private editedRowIndex: number;
     public formGroup: FormGroup;
+    public dataChanged = false;
 
     constructor(private userSerive: UserService, private api: CommonApiService) { }
 
@@ -63,6 +64,7 @@ export class DashboardComponent implements OnInit {
         })) {
             alert('This name is already exist!');
         } else {
+            this.dataChanged = true;
             this.restaurantList.push(this.restaurantForm.value);
             this.restaurantForm = new FormGroup({
                 name: new FormControl(''),
@@ -86,6 +88,7 @@ export class DashboardComponent implements OnInit {
             this.result = 'List saved';
             this.authUser.places = this.restaurantList;
             this.userSerive.updateUser(this.authUser);
+            this.dataChanged = false;
         });
     }
 
@@ -113,11 +116,13 @@ export class DashboardComponent implements OnInit {
             restaurant
         );
         sender.closeRow(rowIndex);
+        this.dataChanged = true;
     }
 
     public removeHandler({ dataItem }): void {
         //TODO: delete confirm dialog
         const index = this.restaurantList.findIndex(({ name }) => name === dataItem.name);
         this.restaurantList.splice(index, 1);
+        this.dataChanged = true;
     }
 }
