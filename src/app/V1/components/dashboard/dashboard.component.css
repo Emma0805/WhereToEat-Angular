@@ -16,3 +16,7 @@ mat-card{
     text-align: right;
     margin: 20px;
 }
+
+.warning{
+    color: red;
+}

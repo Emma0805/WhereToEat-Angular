@@ -14,6 +14,7 @@ import { DashboardComponent } from './V1/components/dashboard/dashboard.componen
 import { GridModule } from '@progress/kendo-angular-grid';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
+import { PopupModule } from '@progress/kendo-angular-popup';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MatMenuModule } from '@angular/material/menu';
     HttpClientModule,
     GridModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    PopupModule
   ],
   providers: [],
   bootstrap: [AppComponent]

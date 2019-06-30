@@ -4,6 +4,11 @@ import { UserService } from '../../utils/user.service';
 import { CommonApiService } from '../../services/apis/common-api.service';
 import { ConstantsService } from '../../utils/constants.service';
 
+const createFormGroup = dataItem => new FormGroup({
+    name: new FormControl(dataItem.name, Validators.required),
+    location: new FormControl(dataItem.location)
+});
+
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
@@ -15,8 +20,12 @@ export class DashboardComponent implements OnInit {
     public mySelection: string[] = [];
     public result = '';
     public authUser: any;
+    private editedRowIndex: number;
+    public formGroup: FormGroup;
+    public dataChanged = false;
 
     constructor(private userSerive: UserService, private api: CommonApiService) { }
+
 
     ngOnInit() {
         this.restaurantForm = new FormGroup({
@@ -55,6 +64,7 @@ export class DashboardComponent implements OnInit {
         })) {
             alert('This name is already exist!');
         } else {
+            this.dataChanged = true;
             this.restaurantList.push(this.restaurantForm.value);
             this.restaurantForm = new FormGroup({
                 name: new FormControl(''),
@@ -78,6 +88,41 @@ export class DashboardComponent implements OnInit {
             this.result = 'List saved';
             this.authUser.places = this.restaurantList;
             this.userSerive.updateUser(this.authUser);
+            this.dataChanged = false;
         });
+    }
+
+    public editHandler({ sender, rowIndex, dataItem }) {
+        this.closeEditor(sender);
+        this.formGroup = createFormGroup(dataItem);
+        this.editedRowIndex = rowIndex;
+        sender.editRow(rowIndex, this.formGroup);
+    }
+
+    private closeEditor(grid, rowIndex = this.editedRowIndex) {
+        grid.closeRow(rowIndex);
+        this.editedRowIndex = undefined;
+        this.formGroup = undefined;
+    }
+
+    public cancelHandler({ sender, rowIndex }) {
+        this.closeEditor(sender, rowIndex);
+    }
+
+    public saveHandler({ sender, rowIndex, formGroup, isNew }): void {
+        const restaurant = formGroup.value;
+        Object.assign(
+            this.restaurantList.find(({ name }) => name === restaurant.name),
+            restaurant
+        );
+        sender.closeRow(rowIndex);
+        this.dataChanged = true;
+    }
+
+    public removeHandler({ dataItem }): void {
+        //TODO: delete confirm dialog
+        const index = this.restaurantList.findIndex(({ name }) => name === dataItem.name);
+        this.restaurantList.splice(index, 1);
+        this.dataChanged = true;
     }
 }
