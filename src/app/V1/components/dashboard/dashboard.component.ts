@@ -45,14 +45,15 @@ export class DashboardComponent implements OnInit {
     }
 
     combineTwoList(newList: any[]) {
-        newList.forEach(item => {
-            if (!this.restaurantList.find(restaurant => {
-                return item.name === restaurant.name && item.location === restaurant.location;
-            })) {
-                this.restaurantList.push(item);
-            }
-        });
-
+        if (newList && newList.length > 0) {
+            newList.forEach(item => {
+                if (!this.restaurantList.find(restaurant => {
+                    return item.name === restaurant.name && item.location === restaurant.location;
+                })) {
+                    this.restaurantList.push(item);
+                }
+            });
+        }
     }
 
     add() {

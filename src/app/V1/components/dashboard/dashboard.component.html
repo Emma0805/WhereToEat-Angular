@@ -17,8 +17,9 @@
   <kendo-grid [data]="restaurantList" [kendoGridSelectBy]="'name'" [selectedKeys]="mySelection" [height]="200"
     [selectable]="{enabled: true, checkboxOnly: true }" (edit)="editHandler($event)" (cancel)="cancelHandler($event)"
     (save)="saveHandler($event)" (remove)="removeHandler($event)">
-    <kendo-grid-checkbox-column showSelectAll="true" width="10"></kendo-grid-checkbox-column>
-    <kendo-grid-column field="name" title="Name" width="40">
+    <kendo-grid-checkbox-column showSelectAll="true" width="10" [headerStyle]="{'background-color': '#f7b2b2'}">
+    </kendo-grid-checkbox-column>
+    <kendo-grid-column field="name" title="Name" width="40" [headerStyle]="{'background-color': '#f7b2b2'}">
       <ng-template kendoGridEditTemplate let-column="column" let-formGroup="formGroup">
         <input #input class="k-textbox" [formControl]="formGroup.get(column.field)">
         <kendo-popup [anchor]="input" *ngIf="formGroup.get(column.field).invalid"
@@ -28,8 +29,9 @@
         </kendo-popup>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="location" title="Location" width="40"></kendo-grid-column>
-    <kendo-grid-column width="20">
+    <kendo-grid-column field="location" title="Location" width="40" [headerStyle]="{'background-color': '#f7b2b2'}">
+    </kendo-grid-column>
+    <kendo-grid-column width="20" [headerStyle]="{'background-color': '#f7b2b2'}">
       <ng-template kendoGridCellTemplate>
         <button kendoGridEditCommand mat-stroked-button style="margin-right:10px;" color="primary">Edit</button>
         <button kendoGridRemoveCommand mat-stroked-button>Remove</button>
@@ -41,7 +43,7 @@
   </kendo-grid>
 
   <div class="selectButton">
-    <span *ngIf="dataChanged" class="warning">Your chandes haven't been saved, you will lost your changes when you leave
+    <span *ngIf="dataChanged" class="warning">Your changes haven't been saved, you will lost your changes when you leave
       this page.</span>
     <button style="margin-right:20px;" mat-raised-button [disabled]='!authUser' (click)="saveList()"
       color="primary">Save All</button>
