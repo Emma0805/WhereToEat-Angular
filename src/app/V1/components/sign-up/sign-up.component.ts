@@ -30,7 +30,7 @@ export class SignUpComponent implements OnInit {
   }
 
   register() {
-    this.api.registerNewUser(ConstantsService.DATABASE + "/user/register", this.userFormGroup.value).subscribe(res => {
+    this.api.sendPostNoAuth(ConstantsService.DATABASE + "/register", this.userFormGroup.value).then(res => {
       this.userSerivce.updateUser(res);
       this.dialog.closeAll();
     });

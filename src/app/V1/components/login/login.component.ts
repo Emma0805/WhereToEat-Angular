@@ -4,6 +4,7 @@ import { CommonApiService } from '../../services/apis/common-api.service';
 import { ConstantsService } from '../../utils/constants.service';
 import { MatDialog } from '@angular/material';
 import { UserService } from '../../utils/user.service';
+import { Token } from '../../utils/token.interface';
 
 @Component({
   selector: 'app-login',
@@ -26,12 +27,17 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.errorMessage = '';
-    this.api.login(ConstantsService.DATABASE + "/user", this.userFormGroup.value).subscribe(res => {
-      if (res === null) {
+    this.api.sendPostNoAuth(ConstantsService.DATABASE + "/login", this.userFormGroup.value).then((token: Token) => {
+      if (token === null) {
         this.errorMessage = 'Username or password is invalid.';
       } else {
-        this.userSerivce.updateUser(res);
-        this.dialog.closeAll();
+        if (token.userId) {
+          this.api.updateToken(token);
+          this.api.sendGetWithAuth(ConstantsService.DATABASE + "/user/" + token.userId).then((user) => {
+            this.userSerivce.updateUser(user);
+            this.dialog.closeAll();
+          });
+        }
       }
     });
   }

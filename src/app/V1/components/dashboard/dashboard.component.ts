@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit {
 
     saveList() {
         this.result = '';
-        this.api.registerNewUser(ConstantsService.DATABASE + "/user/add/place/" + this.authUser.id, this.restaurantList).subscribe(res => {
+        this.api.sendPostWithAuth(ConstantsService.DATABASE + "/user/add/place/" + this.authUser.id, this.restaurantList).then(res => {
             this.result = 'List saved';
             this.authUser.places = this.restaurantList;
             this.userSerive.updateUser(this.authUser);
