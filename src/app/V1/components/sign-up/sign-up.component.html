@@ -2,6 +2,7 @@
 
 <form [formGroup]="userFormGroup">
   <div fxLayout="column" fxLayoutAlign="center">
+    <mat-error class="errorMessage">{{errorMessage}}</mat-error>
     <mat-form-field>
       <input matInput placeholder="Email" formControlName="email">
       <mat-error *ngIf="email.invalid">{{getErrorMessage("email")}}</mat-error>

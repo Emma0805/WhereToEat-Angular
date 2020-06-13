@@ -1,7 +1,9 @@
 mat-form-field{
     padding:10px 0;
 }
-
+.errorMessage{
+    margin: 5px auto;
+}
 header{
     border-bottom: 1px solid #D3D3D3;
     padding-bottom: 24px;

@@ -4,6 +4,7 @@ import { CommonApiService } from '../../services/apis/common-api.service';
 import { ConstantsService } from '../../utils/constants.service';
 import { MatDialog } from '@angular/material';
 import { UserService } from '../../utils/user.service';
+import { Token } from '../../utils/token.interface';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,6 +13,7 @@ import { UserService } from '../../utils/user.service';
 })
 export class SignUpComponent implements OnInit {
   public userFormGroup: FormGroup;
+  public errorMessage = '';
 
   constructor(private api: CommonApiService, private userSerivce: UserService, public dialog: MatDialog) { }
 
@@ -30,9 +32,17 @@ export class SignUpComponent implements OnInit {
   }
 
   register() {
-    this.api.sendPostNoAuth(ConstantsService.DATABASE + "/register", this.userFormGroup.value).then(res => {
-      this.userSerivce.updateUser(res);
-      this.dialog.closeAll();
+    this.errorMessage = '';
+    this.api.sendPostNoAuth(ConstantsService.DATABASE + "/register", this.userFormGroup.value).then((token: Token) => {
+      if (token.userId) {
+        this.api.updateToken(token);
+        this.api.sendGetWithAuth(ConstantsService.DATABASE + "/user/" + token.userId).then((user) => {
+          this.userSerivce.updateUser(user);
+          this.dialog.closeAll();
+        });
+      }
+    }, error => {
+      this.errorMessage = error.error.message;
     });
   }
 
